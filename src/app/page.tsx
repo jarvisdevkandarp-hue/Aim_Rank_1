@@ -17,7 +17,7 @@ export default function LandingPage() {
         </h1>
         
         <p className="max-w-2xl text-lg md:text-xl text-slate-400 leading-relaxed">
-          The world's most advanced AI-powered study companion designed exclusively for GSEB Class 10 students targeting State Rank 1.
+          The world&apos;s most advanced AI-powered study companion designed exclusively for GSEB Class 10 students targeting State Rank 1.
         </p>
 
         <div className="flex flex-wrap justify-center gap-4">

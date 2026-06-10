@@ -1,9 +1,8 @@
 'use client';
 
-import { TestAttemptSummary, EvaluationResult } from '@/lib/agents/evaluator-agent';
+import { TestAttemptSummary } from '@/lib/agents/evaluator-agent';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
 import { CheckCircle2, XCircle, Info, Trophy, Target } from 'lucide-react';
 
@@ -22,7 +21,7 @@ export function TestResultView({ summary }: TestResultViewProps) {
         </div>
         <h1 className="text-4xl font-extrabold tracking-tight">Mission Accomplished</h1>
         <p className="text-muted-foreground max-w-lg mx-auto">
-          You've completed the test. Here is how you're performing against the Rank-1 standard.
+          You&apos;ve completed the test. Here is how you&apos;re performing against the Rank-1 standard.
         </p>
       </div>
 
@@ -73,7 +72,7 @@ export function TestResultView({ summary }: TestResultViewProps) {
           <CardTitle>Detailed Feedback</CardTitle>
         </CardHeader>
         <CardContent className="bg-muted/30 p-6 rounded-lg italic text-lg leading-relaxed">
-          "{summary.generalFeedback}"
+          &quot;{summary.generalFeedback}&quot;
         </CardContent>
       </Card>
 
@@ -99,7 +98,7 @@ export function TestResultView({ summary }: TestResultViewProps) {
                     <p className="text-muted-foreground leading-relaxed">{evalRes.feedback}</p>
                     {evalRes.idealAnswer && (
                       <div className="mt-4 p-4 bg-green-50 dark:bg-green-950/20 rounded border border-green-100 dark:border-green-900/30">
-                        <p className="text-xs font-bold text-green-800 dark:text-green-400 uppercase tracking-wider mb-1">Board Topper's Ideal Answer:</p>
+                        <p className="text-xs font-bold text-green-800 dark:text-green-400 uppercase tracking-wider mb-1">Board Topper&apos;s Ideal Answer:</p>
                         <p className="text-sm">{evalRes.idealAnswer}</p>
                       </div>
                     )}

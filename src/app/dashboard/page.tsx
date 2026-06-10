@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { DailyPlanView } from '@/components/dashboard/DailyPlanView';
 import { TopperSimulatorView } from '@/components/dashboard/TopperSimulatorView';
 import { useStudyStore } from '@/store/useStudyStore';
-import { getBoardReadiness, BoardReadiness } from '@/lib/agents/topper-simulator';
-import { generateDailyPlan } from '@/lib/agents/planner-agent';
+import { getBoardReadinessAction, generateDailyPlanAction } from '@/actions/study-actions';
+import { BoardReadiness } from '@/lib/agents/topper-simulator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -18,7 +18,7 @@ export default function DashboardPage() {
   useEffect(() => {
     async function loadData() {
       try {
-        const readiness = await getBoardReadiness('dummy-user-id'); // Replace with actual user ID in production
+        const readiness = await getBoardReadinessAction('dummy-user-id'); // Replace with actual user ID in production
         setTopperData(readiness);
       } catch (error) {
         console.error('Failed to load dashboard data', error);
@@ -30,7 +30,7 @@ export default function DashboardPage() {
   const handleGeneratePlan = async () => {
     setIsLoading(true);
     try {
-      const plan = await generateDailyPlan(
+      const plan = await generateDailyPlanAction(
         'dummy-user-id',
         new Date().toISOString().split('T')[0],
         { completion: topperData?.completionPercentage || 0 },
@@ -75,7 +75,7 @@ export default function DashboardPage() {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <TabsList>
               <TabsTrigger value="plan" className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" /> Today's Mission
+                <Calendar className="w-4 h-4" /> Today&apos;s Mission
               </TabsTrigger>
               <TabsTrigger value="subjects" className="flex items-center gap-2">
                 <BookOpen className="w-4 h-4" /> Subjects
@@ -83,7 +83,7 @@ export default function DashboardPage() {
             </TabsList>
             
             <Button onClick={handleGeneratePlan} className="bg-primary hover:bg-primary/90">
-              Generate Today's Mission
+              Generate Today&apos;s Mission
             </Button>
           </div>
 

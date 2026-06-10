@@ -1,7 +1,7 @@
 'use client';
 
 import { useStudyStore } from '@/store/useStudyStore';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Clock, BookOpen, GraduationCap } from 'lucide-react';
@@ -17,7 +17,7 @@ export function DailyPlanView() {
     return (
       <Card className="w-full max-w-2xl mx-auto mt-10">
         <CardContent className="p-10 text-center text-muted-foreground">
-          No active plan for today. Click "Generate Plan" to start your mission.
+          No active plan for today. Click &quot;Generate Plan&quot; to start your mission.
         </CardContent>
       </Card>
     );

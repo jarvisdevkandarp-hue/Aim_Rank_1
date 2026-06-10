@@ -2,9 +2,9 @@
 
 import { BoardReadiness } from '@/lib/agents/topper-simulator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
+import { Progress, ProgressTrack, ProgressIndicator } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { Target, Calendar, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Target, Calendar, AlertTriangle } from 'lucide-react';
 
 interface TopperSimulatorViewProps {
   data: BoardReadiness;
@@ -27,7 +27,11 @@ export function TopperSimulatorView({ data }: TopperSimulatorViewProps) {
               <span>Overall Syllabus Progress</span>
               <span>{Math.round(data.completionPercentage)}%</span>
             </div>
-            <Progress value={data.completionPercentage} className="h-3 bg-white/10" indicatorClassName="bg-indigo-400" />
+            <Progress value={data.completionPercentage}>
+              <ProgressTrack className="h-3 bg-white/10">
+                <ProgressIndicator className="bg-indigo-400" />
+              </ProgressTrack>
+            </Progress>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -76,7 +80,7 @@ export function TopperSimulatorView({ data }: TopperSimulatorViewProps) {
             <div className="text-sm">
               <p className="font-bold text-orange-800 dark:text-orange-400">Rank-1 Alert: Behind Schedule</p>
               <p className="text-orange-700 dark:text-orange-300/80">
-                You are currently {data.chapterDeficit} chapters behind the topper's pace. The Planner Agent will redistribute these chapters into your upcoming 7 days. Avoid further missed tasks.
+                You are currently {data.chapterDeficit} chapters behind the topper&apos;s pace. The Planner Agent will redistribute these chapters into your upcoming 7 days. Avoid further missed tasks.
               </p>
             </div>
           </CardContent>
