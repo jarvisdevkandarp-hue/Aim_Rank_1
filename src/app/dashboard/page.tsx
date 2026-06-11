@@ -10,15 +10,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Sparkles, Trophy, BookOpen, User, LayoutDashboard, Settings, LogOut, Terminal, Activity } from 'lucide-react';
+import { createClient } from '@/utils/supabase/client';
 
 export default function DashboardPage() {
+  const supabase = createClient();
   const { setCurrentPlan, setIsLoading } = useStudyStore();
   const [topperData, setTopperData] = useState<BoardReadiness | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadData() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      
+      setUserId(user.id);
       try {
-        const readiness = await getBoardReadinessAction('dummy-user-id');
+        const readiness = await getBoardReadinessAction(user.id);
         setTopperData(readiness);
       } catch (error) {
         console.error('Failed to load dashboard data', error);
@@ -28,10 +35,11 @@ export default function DashboardPage() {
   }, []);
 
   const handleGeneratePlan = async () => {
+    if (!userId) return;
     setIsLoading(true);
     try {
       const plan = await generateDailyPlanAction(
-        'dummy-user-id',
+        userId,
         new Date().toISOString().split('T')[0],
         { completion: topperData?.completionPercentage || 0 },
         []
@@ -43,6 +51,11 @@ export default function DashboardPage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    window.location.href = '/login';
   };
 
   return (
@@ -64,7 +77,10 @@ export default function DashboardPage() {
         </div>
         
         <div className="mt-auto p-8 border-t border-white/5">
-          <div className="flex items-center gap-3 group cursor-pointer text-muted-foreground hover:text-white transition-colors">
+          <div 
+            onClick={handleSignOut}
+            className="flex items-center gap-3 group cursor-pointer text-muted-foreground hover:text-white transition-colors"
+          >
             <div className="w-8 h-8 rounded bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:bg-primary/20 transition-all">
               <User className="w-4 h-4 text-primary" />
             </div>
