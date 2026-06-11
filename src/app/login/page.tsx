@@ -169,10 +169,19 @@ export default async function Login(props: {
               </div>
 
               <div className="flex gap-4 pt-4">
-                <Button formAction={signInWithEmail} className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-mono text-[10px] tracking-widest uppercase h-12 rounded-none">
+                <Button 
+                  type="submit"
+                  formAction={signInWithEmail} 
+                  className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-mono text-[10px] tracking-widest uppercase h-12 rounded-none"
+                >
                   Establish_Link
                 </Button>
-                <Button formAction={signUpWithEmail} variant="outline" className="flex-1 border-white/10 text-white hover:bg-white/5 font-mono text-[10px] tracking-widest uppercase h-12 rounded-none">
+                <Button 
+                  type="submit"
+                  formAction={signUpWithEmail} 
+                  variant="outline" 
+                  className="flex-1 border-white/10 text-white hover:bg-white/5 font-mono text-[10px] tracking-widest uppercase h-12 rounded-none"
+                >
                   Register_Vector
                 </Button>
               </div>
