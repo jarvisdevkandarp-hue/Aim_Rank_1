@@ -7,19 +7,35 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-heading);
+  
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
   
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-heading);
 
   --animate-scan: scan 8s linear infinite;
   --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -35,8 +51,11 @@
   --background: oklch(0.08 0.02 260); /* Deep Space Blue-Black */
   --foreground: oklch(0.95 0.01 260);
   
-  --card: oklch(0.12 0.03 260 / 0.8);
+  --card: oklch(0.12 0.03 260); 
   --card-foreground: oklch(0.95 0.01 260);
+
+  --popover: oklch(0.12 0.03 260);
+  --popover-foreground: oklch(0.95 0.01 260);
   
   --primary: oklch(0.65 0.25 280); /* Electric Violet */
   --primary-foreground: oklch(0.99 0.01 260);
@@ -82,7 +101,7 @@
 
 @layer utilities {
   .glass {
-    @apply bg-card backdrop-blur-xl border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.3)];
+    @apply bg-card/80 backdrop-blur-xl border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.3)];
   }
   
   .tactical-grid {
