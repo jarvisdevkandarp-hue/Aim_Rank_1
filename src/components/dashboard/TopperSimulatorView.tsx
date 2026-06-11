@@ -4,7 +4,7 @@ import { BoardReadiness } from '@/lib/agents/topper-simulator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress, ProgressTrack, ProgressIndicator } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { Target, Calendar, AlertTriangle } from 'lucide-react';
+import { Target, Calendar, AlertTriangle, Activity, Zap, Cpu } from 'lucide-react';
 
 interface TopperSimulatorViewProps {
   data: BoardReadiness;
@@ -13,79 +13,106 @@ interface TopperSimulatorViewProps {
 export function TopperSimulatorView({ data }: TopperSimulatorViewProps) {
   return (
     <div className="space-y-6">
-      <Card className="bg-gradient-to-br from-indigo-900 to-slate-900 text-white border-none shadow-xl">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle className="text-2xl font-bold tracking-tight">Board Topper Simulator</CardTitle>
-            <p className="text-indigo-200 text-sm">Target: Rank 1 Gujarat | Completion by Aug 22</p>
+      <Card className="glass border-primary/20 overflow-hidden relative group">
+        {/* Animated Background Element */}
+        <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-[80px] group-hover:bg-primary/10 transition-colors" />
+        
+        <CardHeader className="flex flex-row items-center justify-between border-b border-white/5 pb-6">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-primary animate-ping" />
+              <CardTitle className="text-xl font-bold tracking-widest uppercase">System_Readiness_Report</CardTitle>
+            </div>
+            <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase italic">Target: Rank 1 Gujarat State Board • Protocol Alpha-7</p>
           </div>
-          <Target className="w-10 h-10 text-indigo-400 opacity-50" />
+          <Cpu className="w-8 h-8 text-primary/40" />
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm font-medium">
-              <span>Overall Syllabus Progress</span>
-              <span>{Math.round(data.completionPercentage)}%</span>
+
+        <CardContent className="pt-8 space-y-10">
+          {/* Main Vector */}
+          <div className="space-y-4">
+            <div className="flex justify-between items-end">
+              <div className="space-y-1">
+                <span className="text-[10px] font-mono text-muted-foreground tracking-widest uppercase">Syllabus_Completion_Vector</span>
+                <div className="text-3xl font-black tracking-tighter glow-text">{Math.round(data.completionPercentage)}%</div>
+              </div>
+              <div className="text-right">
+                 <span className="text-[10px] font-mono text-muted-foreground tracking-widest uppercase block mb-1">Status</span>
+                 {data.isAheadOfSchedule ? (
+                  <Badge className="bg-green-500/10 text-green-400 border-green-500/20 font-mono text-[10px] rounded-none px-3 py-1 uppercase tracking-widest">Nominal</Badge>
+                ) : (
+                  <Badge className="bg-orange-500/10 text-orange-400 border-orange-500/20 font-mono text-[10px] rounded-none px-3 py-1 uppercase tracking-widest">Sub-Optimal</Badge>
+                )}
+              </div>
             </div>
             <Progress value={data.completionPercentage}>
-              <ProgressTrack className="h-3 bg-white/10">
-                <ProgressIndicator className="bg-indigo-400" />
+              <ProgressTrack className="h-1.5 bg-white/5 rounded-none">
+                <ProgressIndicator className="bg-primary shadow-[0_0_15px_rgba(var(--primary),0.5)] transition-all duration-1000" />
               </ProgressTrack>
             </Progress>
           </div>
 
+          {/* Tactical Grid Metrics */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-              <p className="text-xs text-indigo-200 uppercase font-bold tracking-wider mb-1">Days Left</p>
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-indigo-400" />
-                <span className="text-xl font-bold">{data.daysRemaining}</span>
-              </div>
-            </div>
-
-            <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-              <p className="text-xs text-indigo-200 uppercase font-bold tracking-wider mb-1">Daily Goal</p>
-              <div className="flex items-center gap-2">
-                <span className="text-xl font-bold text-indigo-300">{data.requiredDailyHours}h</span>
-              </div>
-            </div>
-
-            <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-              <p className="text-xs text-indigo-200 uppercase font-bold tracking-wider mb-1">Status</p>
-              <div className="flex items-center gap-2">
-                {data.isAheadOfSchedule ? (
-                  <Badge className="bg-green-500/20 text-green-400 border-green-500/30">Ahead</Badge>
-                ) : (
-                  <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30">Behind</Badge>
-                )}
-              </div>
-            </div>
-
-            <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-              <p className="text-xs text-indigo-200 uppercase font-bold tracking-wider mb-1">Deficit</p>
-              <div className="flex items-center gap-2">
-                <span className={`text-xl font-bold ${data.chapterDeficit > 0 ? 'text-orange-400' : 'text-green-400'}`}>
-                  {data.chapterDeficit} Ch
-                </span>
-              </div>
-            </div>
+            <MetricBox 
+              label="Mission_Days_Left" 
+              value={data.daysRemaining.toString()} 
+              icon={<Calendar className="w-3 h-3" />} 
+            />
+            <MetricBox 
+              label="Required_Daily_Load" 
+              value={`${data.requiredDailyHours}H`} 
+              icon={<Zap className="w-3 h-3" />} 
+              highlight 
+            />
+            <MetricBox 
+              label="System_Uptime" 
+              value="99.8%" 
+              icon={<Activity className="w-3 h-3" />} 
+            />
+            <MetricBox 
+              label="Deficit_Delta" 
+              value={`${data.chapterDeficit} CH`} 
+              icon={<Target className="w-3 h-3" />} 
+              alert={data.chapterDeficit > 0}
+            />
           </div>
         </CardContent>
       </Card>
 
       {!data.isAheadOfSchedule && (
-        <Card className="border-orange-200 bg-orange-50 dark:bg-orange-950/20 dark:border-orange-900">
-          <CardContent className="p-4 flex items-start gap-3">
-            <AlertTriangle className="w-5 h-5 text-orange-600 mt-0.5" />
-            <div className="text-sm">
-              <p className="font-bold text-orange-800 dark:text-orange-400">Rank-1 Alert: Behind Schedule</p>
-              <p className="text-orange-700 dark:text-orange-300/80">
-                You are currently {data.chapterDeficit} chapters behind the topper&apos;s pace. The Planner Agent will redistribute these chapters into your upcoming 7 days. Avoid further missed tasks.
+        <div className="relative group overflow-hidden">
+          <div className="absolute inset-0 bg-destructive/5 animate-pulse-slow" />
+          <div className="relative p-6 border border-destructive/20 glass flex items-start gap-4">
+            <div className="bg-destructive/10 p-2 border border-destructive/20">
+              <AlertTriangle className="w-5 h-5 text-destructive" />
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-xs font-mono font-bold text-destructive uppercase tracking-widest">Tactical Alert: Objective at Risk</h4>
+              <p className="text-[11px] font-mono text-muted-foreground uppercase leading-relaxed tracking-wider">
+                Current pace is <span className="text-destructive font-bold">{data.chapterDeficit} chapters</span> behind mission-critical milestones. 
+                System is recalculating study vectors to compensate for the delta over the next 168 hours.
               </p>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
+    </div>
+  );
+}
+
+function MetricBox({ label, value, icon, highlight = false, alert = false }: { label: string, value: string, icon: React.ReactNode, highlight?: boolean, alert?: boolean }) {
+  return (
+    <div className={`p-4 border transition-all ${alert ? 'border-destructive/30 bg-destructive/5' : 'border-white/5 bg-white/[0.02] hover:bg-white/[0.05]'}`}>
+      <div className="flex items-center gap-2 mb-3">
+        <div className={`${alert ? 'text-destructive' : highlight ? 'text-primary' : 'text-muted-foreground'}`}>
+          {icon}
+        </div>
+        <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest truncate">{label}</span>
+      </div>
+      <div className={`text-xl font-bold font-mono tracking-tighter ${alert ? 'text-destructive' : highlight ? 'text-primary' : 'text-white'}`}>
+        {value}
+      </div>
     </div>
   );
 }

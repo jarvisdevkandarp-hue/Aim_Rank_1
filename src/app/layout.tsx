@@ -43,10 +43,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased tactical-grid relative overflow-x-hidden`}
       >
-        {children}
-        <Toaster />
+        <div className="scanline" />
+        <div className="relative z-10">
+          {children}
+        </div>
+        <Toaster theme="dark" richColors position="top-right" />
       </body>
     </html>
   );
