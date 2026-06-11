@@ -7,11 +7,10 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Github, Mail } from 'lucide-react'
 
-export default async function Login({
-  searchParams,
-}: {
-  searchParams: { message: string }
+export default async function Login(props: {
+  searchParams: Promise<{ message: string }>
 }) {
+  const searchParams = await props.searchParams
   const supabase = await createClient()
   const { data: { session } } = await supabase.auth.getSession()
 
