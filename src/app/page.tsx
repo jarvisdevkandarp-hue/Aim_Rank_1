@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Trophy, Sparkles, Target, Zap, Shield, BarChart3, ChevronRight } from 'lucide-react';
